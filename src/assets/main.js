@@ -1,8 +1,8 @@
 let answer = document.getElementById('answer');
 let attempt = document.getElementById('attempt');
+let input = document.getElementById('user-guess');
 
 function guess() {
-	let input = document.getElementById('user-guess');
     //add functionality to guess function here
     if(attempt || answer){
     	setHiddenFields();
@@ -12,6 +12,12 @@ function guess() {
     	attempt++;
     }else{
     	return false;
+    }
+
+    if(getResults() || attempt < 10){
+    	setMessage('You Win! :)');
+    }else{
+    	setMessage('You Lose! :(');
     }
   }
 
@@ -42,17 +48,21 @@ function validateInput(input) {
 function getResults(input) {
 	let resultsArea = document.getElementById('results');
 	let results ='';
+	let isCorrect = false;
 	for (let i=0;i< input.value.length;i++) {
 		if(input.value[i] === answer[i]){
 			results += '<span class="glyphicon glyphicon-ok"></span>';
+			isCorrect = true;
 		}else{
 			results += '<span class="glyphicon glyphicon-remove"></span>';
 		}
 
 		if(input.value[i].indexOf(answer[i]) !== -1){
 			results += '<span class="glyphicon glyphicon-transfer"></span>';
+			isCorrect = false;
 		}
 	}
 
 	resultsArea.innerHTML += '<div class="row"><span class="col-md-6">' + input + '</span><span class="col-md-6">'+ results +'</span></div>';
+	return isCorrect;
 }
