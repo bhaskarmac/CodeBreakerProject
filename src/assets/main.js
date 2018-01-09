@@ -1,10 +1,13 @@
-let answer = document.getElementById('answer');
-let attempt = document.getElementById('attempt');
+let answer = document.getElementById('answer').value;
+let attempt = document.getElementById('attempt').value;
 let input = document.getElementById('user-guess');
 
 function guess() {
+	console.log('attempt=>', attempt);
+	console.log('answer=>', answer);
+
     //add functionality to guess function here
-    if(attempt || answer){
+    if(attempt === '' || answer === ''){
     	setHiddenFields();
     }
 
@@ -14,10 +17,14 @@ function guess() {
     	return false;
     }
 
-    if(getResults() || attempt < 10){
+    if(getResults(input) && attempt < 10){
     	setMessage('You Win! :)');
     }else{
     	setMessage('You Lose! :(');
+    }
+
+    if(attempt < 10){
+    	setMessage('Incorrect, try again.');
     }
   }
 
@@ -25,6 +32,7 @@ function guess() {
 function setHiddenFields() {
 	attempt = 0;
 	answer = Math.round(Math.random()*10000);
+	console.log('answer=>', answer);
 	if(answer.toString().length < 4){
 		while(answer.toString().length - 4){
 			answer = '0' + answer;
@@ -63,6 +71,6 @@ function getResults(input) {
 		}
 	}
 
-	resultsArea.innerHTML += '<div class="row"><span class="col-md-6">' + input + '</span><span class="col-md-6">'+ results +'</span></div>';
+	resultsArea.innerHTML += '<div class="row"><span class="col-md-6">' + input.value + '</span><span class="col-md-6">'+ results +'</span></div>';
 	return isCorrect;
 }
